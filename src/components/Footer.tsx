@@ -60,19 +60,19 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Our Services</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-white/70 hover:text-primary transition-colors">Business Cards</a>
+                <Link to="/designs?category=Business Cards" className="text-white/70 hover:text-primary transition-colors">Business Cards</Link>
               </li>
               <li>
-                <a href="#" className="text-white/70 hover:text-primary transition-colors">Brochures & Flyers</a>
+                <Link to="/designs?category=Brochures" className="text-white/70 hover:text-primary transition-colors">Brochures & Flyers</Link>
               </li>
               <li>
-                <a href="#" className="text-white/70 hover:text-primary transition-colors">Posters & Banners</a>
+                <Link to="/designs?category=Posters" className="text-white/70 hover:text-primary transition-colors">Posters & Banners</Link>
               </li>
               <li>
-                <a href="#" className="text-white/70 hover:text-primary transition-colors">Custom Stationery</a>
+                <Link to="/designs?category=Stationery" className="text-white/70 hover:text-primary transition-colors">Custom Stationery</Link>
               </li>
               <li>
-                <a href="#" className="text-white/70 hover:text-primary transition-colors">Marketing Materials</a>
+                <Link to="/designs?category=Marketing Materials" className="text-white/70 hover:text-primary transition-colors">Marketing Materials</Link>
               </li>
             </ul>
           </div>

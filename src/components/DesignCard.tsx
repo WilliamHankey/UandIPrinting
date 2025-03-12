@@ -2,15 +2,17 @@
 import React from 'react';
 import { Eye, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 interface DesignCardProps {
   image: string;
   title: string;
   category: string;
   price: number;
+  id?: string;
 }
 
-const DesignCard = ({ image, title, category, price }: DesignCardProps) => {
+const DesignCard = ({ image, title, category, price, id = '1' }: DesignCardProps) => {
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 group">
       <div className="relative overflow-hidden">
@@ -20,13 +22,26 @@ const DesignCard = ({ image, title, category, price }: DesignCardProps) => {
           className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105" 
         />
         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
-          <Button size="sm" variant="secondary" className="rounded-full">
-            <Eye className="h-4 w-4 mr-2" />
-            Preview
+          <Button 
+            size="sm" 
+            variant="secondary" 
+            className="rounded-full"
+            asChild
+          >
+            <Link to={`/designs/${id}?action=preview`}>
+              <Eye className="h-4 w-4 mr-2" />
+              Preview
+            </Link>
           </Button>
-          <Button size="sm" className="rounded-full bg-primary hover:bg-primary/90">
-            <ShoppingCart className="h-4 w-4 mr-2" />
-            Order
+          <Button 
+            size="sm" 
+            className="rounded-full bg-primary hover:bg-primary/90"
+            asChild
+          >
+            <Link to={`/designs/${id}?action=order`}>
+              <ShoppingCart className="h-4 w-4 mr-2" />
+              Order
+            </Link>
           </Button>
         </div>
       </div>
