@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
@@ -39,7 +38,7 @@
 }
 
 .nav-link {
-  @apply relative text-secondary-foreground/90 hover:text-secondary-foreground transition-colors;
+  @apply relative text-secondary hover:text-secondary/90 transition-colors;
 }
 
 .nav-link::after {
