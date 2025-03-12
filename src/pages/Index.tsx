@@ -1,4 +1,3 @@
-
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Printer, Palette, Sparkles, TrendingUp, Clock, Truck } from "lucide-react";
@@ -7,6 +6,7 @@ import FeatureCard from "@/components/FeatureCard";
 import TestimonialCard from "@/components/TestimonialCard";
 import BlogCard from "@/components/BlogCard";
 import Footer from "@/components/Footer";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   return (
@@ -31,11 +31,15 @@ const Index = () => {
                 Transform your creative visions into stunning prints with our premium quality printing services. From business cards to large format prints, we've got you covered.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="bg-primary hover:bg-primary/90">
-                  Start Your Order <ArrowRight className="ml-2 h-5 w-5" />
+                <Button size="lg" className="bg-primary hover:bg-primary/90" asChild>
+                  <Link to="/designs?action=order">
+                    Start Your Order <ArrowRight className="ml-2 h-5 w-5" />
+                  </Link>
                 </Button>
-                <Button size="lg" variant="outline">
-                  Explore Our Designs
+                <Button size="lg" variant="outline" asChild>
+                  <Link to="/designs">
+                    Explore Our Designs
+                  </Link>
                 </Button>
               </div>
             </div>
@@ -197,11 +201,15 @@ const Index = () => {
             Get in touch with us today to discuss your printing needs and receive a free quote.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary">
-              Get a Free Quote
+            <Button size="lg" variant="secondary" asChild>
+              <Link to="/contact?type=quote">
+                Get a Free Quote
+              </Link>
             </Button>
-            <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white hover:text-primary">
-              Contact Us
+            <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white hover:text-primary" asChild>
+              <Link to="/contact">
+                Contact Us
+              </Link>
             </Button>
           </div>
         </div>
