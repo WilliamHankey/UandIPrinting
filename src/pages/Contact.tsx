@@ -25,6 +25,7 @@ const Contact = () => {
   });
   
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
@@ -47,8 +48,12 @@ const Contact = () => {
     }
     
     try {
-      // Send email and WhatsApp notifications
+      // Send WhatsApp notification
       await sendOrderNotifications(cartItems, totalPrice, formData);
+      
+      // Form will be submitted to FormSubmit
+      // We don't prevent default here, let the form submit naturally
+      setSubmitted(true);
       
       // Show success message
       toast({
@@ -56,7 +61,7 @@ const Contact = () => {
         description: "Your message has been sent. We'll get back to you shortly!",
       });
       
-      // Reset form
+      // Reset form (will happen after redirect back from formsubmit)
       setFormData({
         name: '',
         email: '',
@@ -70,10 +75,28 @@ const Contact = () => {
         description: "There was a problem sending your message. Please try again.",
         variant: "destructive",
       });
-    } finally {
       setIsSubmitting(false);
     }
   };
+
+  // If already submitted, show thank you message
+  if (submitted) {
+    return (
+      <div className="min-h-screen">
+        <Navbar />
+        <section className="pt-32 pb-16 px-4">
+          <div className="container mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Thank You!</h1>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Your message has been sent successfully. We'll get back to you shortly.
+            </p>
+            <Button className="mt-8" onClick={() => setSubmitted(false)}>Send Another Message</Button>
+          </div>
+        </section>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen">
@@ -204,13 +227,37 @@ const Contact = () => {
                 </div>
               )}
               
-              <form className="space-y-6" onSubmit={handleSubmit}>
+              <form
+                action="https://formsubmit.co/edc075b99ae845a10a31db562ce88fcd"
+                method="POST"
+                className="space-y-6"
+                onSubmit={handleSubmit}
+              >
+                {/* Hidden fields for FormSubmit */}
+                <input type="hidden" name="_subject" value={`${formData.subject} - U&I Printing`} />
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_next" value={window.location.href} />
+                
+                {/* Cart items hidden field */}
+                {cartItems.length > 0 && (
+                  <input 
+                    type="hidden" 
+                    name="cart_items" 
+                    value={JSON.stringify(cartItems.map(item => ({ 
+                      title: item.title, 
+                      price: item.price,
+                      quantity: item.quantity
+                    })))} 
+                  />
+                )}
+                
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
                     <input 
                       type="text" 
-                      id="name" 
+                      id="name"
+                      name="name"
                       value={formData.name}
                       onChange={handleChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
@@ -221,7 +268,8 @@ const Contact = () => {
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
                     <input 
                       type="email" 
-                      id="email" 
+                      id="email"
+                      name="email"
                       value={formData.email}
                       onChange={handleChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
@@ -234,7 +282,8 @@ const Contact = () => {
                   <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
                   <input 
                     type="text" 
-                    id="subject" 
+                    id="subject"
+                    name="subject"
                     value={formData.subject}
                     onChange={handleChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
@@ -245,7 +294,8 @@ const Contact = () => {
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
                   <textarea 
-                    id="message" 
+                    id="message"
+                    name="message"
                     rows={6}
                     value={formData.message}
                     onChange={handleChange}

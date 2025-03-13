@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import CartIcon from "@/components/CartIcon";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,15 +28,19 @@ const Navbar = () => {
             <Link to="/designs" className="nav-link">Designs</Link>
             <Link to="/blog" className="nav-link">Blog</Link>
             <Link to="/contact" className="nav-link">Contact</Link>
+            <CartIcon className="text-gray-700 hover:text-primary transition-colors" />
             <Button variant="default" className="bg-primary hover:bg-primary/90">
               Start Order
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
-          <button className="md:hidden p-2" onClick={toggleMenu}>
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+          <div className="md:hidden flex items-center gap-4">
+            <CartIcon className="text-gray-700" />
+            <button className="p-2" onClick={toggleMenu}>
+              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Navigation */}
