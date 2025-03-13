@@ -1,11 +1,80 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+import { useCart } from '@/context/CartContext';
+import { useToast } from '@/hooks/use-toast';
+import { sendOrderNotifications } from '@/lib/notifications';
 
 const Contact = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const isQuoteRequest = searchParams.get('type') === 'quote';
+  
+  const { cartItems, totalPrice } = useCart();
+  const { toast } = useToast();
+  
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: isQuoteRequest ? 'Quote Request' : '',
+    message: ''
+  });
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({ ...prev, [id]: value }));
+  };
+  
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    // Validate form
+    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+      toast({
+        title: "Missing information",
+        description: "Please fill in all fields",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+    
+    try {
+      // Send email and WhatsApp notifications
+      await sendOrderNotifications(cartItems, totalPrice, formData);
+      
+      // Show success message
+      toast({
+        title: "Message Sent",
+        description: "Your message has been sent. We'll get back to you shortly!",
+      });
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
+    } catch (error) {
+      console.error('Notification error:', error);
+      toast({
+        title: "Error",
+        description: "There was a problem sending your message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -13,9 +82,13 @@ const Contact = () => {
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-4 bg-accent">
         <div className="container mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            {isQuoteRequest ? 'Get a Free Quote' : 'Contact Us'}
+          </h1>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Have questions or ready to start your printing project? Reach out to our team for assistance.
+            {isQuoteRequest 
+              ? 'Tell us about your project and we\'ll provide you with a custom quote.' 
+              : 'Have questions or ready to start your printing project? Reach out to our team for assistance.'}
           </p>
         </div>
       </section>
@@ -106,15 +179,40 @@ const Contact = () => {
             
             {/* Contact Form */}
             <div className="bg-white p-8 rounded-xl shadow-md">
-              <h2 className="text-2xl font-bold mb-6">Send Us a Message</h2>
+              <h2 className="text-2xl font-bold mb-6">
+                {isQuoteRequest ? 'Request a Quote' : 'Send Us a Message'}
+              </h2>
               
-              <form className="space-y-6">
+              {cartItems.length > 0 && (
+                <div className="mb-6 p-4 bg-accent rounded-lg">
+                  <h3 className="font-semibold mb-2">Items in Your Cart ({cartItems.length})</h3>
+                  <p className="text-sm text-gray-600 mb-2">
+                    Your cart items will be included in your message.
+                  </p>
+                  <ul className="text-sm">
+                    {cartItems.map(item => (
+                      <li key={item.id} className="flex justify-between mb-1">
+                        <span>{item.title} x {item.quantity}</span>
+                        <span>${(item.price * item.quantity).toFixed(2)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-2 pt-2 border-t border-gray-200 flex justify-between">
+                    <span className="font-medium">Total:</span>
+                    <span className="font-medium">${totalPrice.toFixed(2)}</span>
+                  </div>
+                </div>
+              )}
+              
+              <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
                     <input 
                       type="text" 
                       id="name" 
+                      value={formData.name}
+                      onChange={handleChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                       placeholder="John Doe" 
                     />
@@ -124,6 +222,8 @@ const Contact = () => {
                     <input 
                       type="email" 
                       id="email" 
+                      value={formData.email}
+                      onChange={handleChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                       placeholder="john@example.com" 
                     />
@@ -135,8 +235,10 @@ const Contact = () => {
                   <input 
                     type="text" 
                     id="subject" 
+                    value={formData.subject}
+                    onChange={handleChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                    placeholder="How can we help you?" 
+                    placeholder={isQuoteRequest ? "Quote Request" : "How can we help you?"} 
                   />
                 </div>
                 
@@ -145,14 +247,22 @@ const Contact = () => {
                   <textarea 
                     id="message" 
                     rows={6}
+                    value={formData.message}
+                    onChange={handleChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary resize-none"
-                    placeholder="Write your message here..." 
+                    placeholder={isQuoteRequest 
+                      ? "Please describe your project details, timeline, and any specific requirements..." 
+                      : "Write your message here..."} 
                   ></textarea>
                 </div>
                 
-                <Button className="w-full bg-primary hover:bg-primary/90">
+                <Button 
+                  className="w-full bg-primary hover:bg-primary/90" 
+                  type="submit"
+                  disabled={isSubmitting}
+                >
                   <Send className="h-5 w-5 mr-2" />
-                  Send Message
+                  {isSubmitting ? 'Sending...' : isQuoteRequest ? 'Request Quote' : 'Send Message'}
                 </Button>
               </form>
             </div>

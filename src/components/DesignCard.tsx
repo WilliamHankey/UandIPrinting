@@ -3,6 +3,8 @@ import React from 'react';
 import { Eye, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import { useCart } from '@/context/CartContext';
+import { useToast } from '@/hooks/use-toast';
 
 interface DesignCardProps {
   image: string;
@@ -13,6 +15,21 @@ interface DesignCardProps {
 }
 
 const DesignCard = ({ image, title, category, price, id = '1' }: DesignCardProps) => {
+  const { addToCart } = useCart();
+  const { toast } = useToast();
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    addToCart({ id, title, image, category, price });
+    
+    toast({
+      title: "Added to cart",
+      description: `${title} has been added to your cart`,
+    });
+  };
+
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 group">
       <div className="relative overflow-hidden">
@@ -36,12 +53,10 @@ const DesignCard = ({ image, title, category, price, id = '1' }: DesignCardProps
           <Button 
             size="sm" 
             className="rounded-full bg-primary hover:bg-primary/90"
-            asChild
+            onClick={handleAddToCart}
           >
-            <Link to={`/designs/${id}?action=order`}>
-              <ShoppingCart className="h-4 w-4 mr-2" />
-              Order
-            </Link>
+            <ShoppingCart className="h-4 w-4 mr-2" />
+            Add to Cart
           </Button>
         </div>
       </div>
