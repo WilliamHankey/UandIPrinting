@@ -1,20 +1,37 @@
-
 import React from 'react';
 import { Eye, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { useCart } from '@/context/CartContext';
 import { useToast } from '@/hooks/use-toast';
+import { urlFor } from '@/lib/sanity';
+
+interface Contributor {
+  name: string;
+  avatar: string;
+}
 
 interface DesignCardProps {
-  image: string;
+  _id: string;
+  image: string | { asset: { _ref: string } };
   title: string;
   category: string;
   price: number;
-  id?: string;
+  rating: number;
+  reviewCount: number;
+  contributors: Contributor[];
 }
 
-const DesignCard = ({ image, title, category, price, id = '1' }: DesignCardProps) => {
+const DesignCard = ({ 
+  _id, 
+  image, 
+  title, 
+  category, 
+  price, 
+  rating, 
+  reviewCount,
+  contributors 
+}: DesignCardProps) => {
   const { addToCart } = useCart();
   const { toast } = useToast();
 
@@ -22,7 +39,7 @@ const DesignCard = ({ image, title, category, price, id = '1' }: DesignCardProps
     e.preventDefault();
     e.stopPropagation();
     
-    addToCart({ id, title, image, category, price });
+    addToCart({ id: _id, title, image, category, price });
     
     toast({
       title: "Added to cart",
@@ -30,11 +47,22 @@ const DesignCard = ({ image, title, category, price, id = '1' }: DesignCardProps
     });
   };
 
+  // Function to get the image URL
+  const getImageUrl = (image: string | { asset: { _ref: string } }) => {
+    if (typeof image === 'string') {
+      return image;
+    }
+    if (image?.asset?._ref) {
+      return urlFor(image).url();
+    }
+    return ''; // Fallback empty string or you could use a default image
+  };
+
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 group">
       <div className="relative overflow-hidden">
         <img 
-          src={image} 
+          src={getImageUrl(image)} 
           alt={title} 
           className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105" 
         />
@@ -45,7 +73,7 @@ const DesignCard = ({ image, title, category, price, id = '1' }: DesignCardProps
             className="rounded-full"
             asChild
           >
-            <Link to={`/designs/${id}?action=preview`}>
+            <Link to={`/designs/${_id}?action=preview`}>
               <Eye className="h-4 w-4 mr-2" />
               Preview
             </Link>
@@ -68,15 +96,19 @@ const DesignCard = ({ image, title, category, price, id = '1' }: DesignCardProps
         <h3 className="text-xl font-bold">{title}</h3>
         <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
           <div className="flex -space-x-2">
-            {[...Array(3)].map((_, i) => (
-              <div key={i} className="w-8 h-8 rounded-full bg-gray-200 border-2 border-white flex items-center justify-center text-xs font-medium">
-                {String.fromCharCode(65 + i)}
+            {contributors?.slice(0, 3).map((contributor, i) => (
+              <div key={i} className="w-8 h-8 rounded-full border-2 border-white overflow-hidden">
+                <img 
+                  src={getImageUrl(contributor.avatar)} 
+                  alt={contributor.name}
+                  className="w-full h-full object-cover"
+                />
               </div>
             ))}
           </div>
           <div className="flex items-center text-sm text-gray-500">
             <span className="mr-1">⭐</span>
-            <span>4.8 (24)</span>
+            <span>{rating.toFixed(1)} ({reviewCount})</span>
           </div>
         </div>
       </div>

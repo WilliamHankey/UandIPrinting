@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
@@ -6,77 +5,12 @@ import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Filter, Search } from 'lucide-react';
 import DesignCard from '@/components/DesignCard';
-
-// Sample design data
-const DESIGNS_DATA = [
-  {
-    id: '1',
-    image: "https://images.unsplash.com/photo-1621155346337-1d19476ba7d6?auto=format&fit=crop&q=80",
-    title: "Modern Business Card",
-    category: "Business Cards",
-    price: 49.99
-  },
-  {
-    id: '2',
-    image: "https://images.unsplash.com/photo-1622556498246-755f44ca76f3?auto=format&fit=crop&q=80",
-    title: "Corporate Brochure",
-    category: "Brochures",
-    price: 89.99
-  },
-  {
-    id: '3',
-    image: "https://images.unsplash.com/photo-1626785774625-ddcddc3445e9?auto=format&fit=crop&q=80",
-    title: "Event Promotion Poster",
-    category: "Posters",
-    price: 39.99
-  },
-  {
-    id: '4',
-    image: "https://images.unsplash.com/photo-1634084462412-b54873c0a56d?auto=format&fit=crop&q=80",
-    title: "Restaurant Menu",
-    category: "Menus",
-    price: 59.99
-  },
-  {
-    id: '5',
-    image: "https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&q=80",
-    title: "Wedding Invitation",
-    category: "Invitations",
-    price: 69.99
-  },
-  {
-    id: '6',
-    image: "https://images.unsplash.com/photo-1611532736637-13a8bdf96a5f?auto=format&fit=crop&q=80",
-    title: "Company Letterhead",
-    category: "Stationery",
-    price: 29.99
-  },
-  {
-    id: '7',
-    image: "https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?auto=format&fit=crop&q=80",
-    title: "Professional Flyer",
-    category: "Flyers",
-    price: 34.99
-  },
-  {
-    id: '8',
-    image: "https://images.unsplash.com/photo-1626785774573-5a4da723fe2b?auto=format&fit=crop&q=80",
-    title: "Holiday Greeting Card",
-    category: "Greeting Cards",
-    price: 19.99
-  },
-  {
-    id: '9',
-    image: "https://images.unsplash.com/photo-1600775508114-5c30cf886418?auto=format&fit=crop&q=80",
-    title: "Custom T-Shirt Design",
-    category: "Apparel",
-    price: 24.99
-  }
-];
+import { useDesigns } from '@/hooks/useDesigns';
 
 const Designs = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [displayedDesigns, setDisplayedDesigns] = useState<typeof DESIGNS_DATA>([]);
+  const { designs, loading: isLoading, error } = useDesigns();
+  const [displayedDesigns, setDisplayedDesigns] = useState<typeof designs>([]);
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState(searchParams.get('category') || 'All Designs');
   const [loading, setLoading] = useState(false);
@@ -93,9 +27,10 @@ const Designs = () => {
 
   // Filter designs based on selected category
   const filteredDesigns = React.useMemo(() => {
-    if (filter === 'All Designs') return DESIGNS_DATA;
-    return DESIGNS_DATA.filter(design => design.category === filter);
-  }, [filter]);
+    if (!designs) return [];
+    if (filter === 'All Designs') return designs;
+    return designs.filter(design => design.category === filter);
+  }, [designs, filter]);
 
   // Load initial designs
   useEffect(() => {
@@ -141,6 +76,17 @@ const Designs = () => {
     setFilter(newFilter);
     setSearchParams({ category: newFilter === 'All Designs' ? '' : newFilter });
   };
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-red-600 mb-4">Error loading designs</h2>
+          <p className="text-gray-600">{error.message}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen">
@@ -214,30 +160,41 @@ const Designs = () => {
       {/* Designs Grid */}
       <section className="py-16 px-4">
         <div className="container mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {displayedDesigns.map((design, index) => (
-              <DesignCard 
-                key={design.id}
-                id={design.id}
-                image={design.image}
-                title={design.title}
-                category={design.category}
-                price={design.price}
-              />
-            ))}
-          </div>
-          
-          {/* Loading indicator and observer target */}
-          <div 
-            ref={observerTarget} 
-            className="flex justify-center mt-12 h-16"
-          >
-            {loading && displayedDesigns.length < filteredDesigns.length && (
-              <div className="loader">
-                <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+          {isLoading ? (
+            <div className="flex justify-center items-center h-64">
+              <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          ) : (
+            <>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {displayedDesigns.map((design) => (
+                  <DesignCard 
+                    key={design._id}
+                    _id={design._id}
+                    image={design.image}
+                    title={design.title}
+                    category={design.category}
+                    price={design.price}
+                    rating={design.rating}
+                    reviewCount={design.reviewCount}
+                    contributors={design.contributors}
+                  />
+                ))}
               </div>
-            )}
-          </div>
+              
+              {/* Loading indicator and observer target */}
+              <div 
+                ref={observerTarget} 
+                className="flex justify-center mt-12 h-16"
+              >
+                {loading && displayedDesigns.length < filteredDesigns.length && (
+                  <div className="loader">
+                    <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
         </div>
       </section>
       

@@ -1,69 +1,92 @@
-# Welcome to your Lovable project
+# Designify Order Portal
 
-## Project info
+A modern e-commerce platform for ordering custom designs, built with React, Vite, and Sanity CMS.
 
-**URL**: https://lovable.dev/projects/0433017d-b5ad-4054-96eb-c0f375a4c60c
+## Features
 
-## How can I edit this code?
+- Browse and filter designs by category
+- Preview designs before purchase
+- Shopping cart functionality
+- Responsive design
+- Integration with Sanity CMS for content management
 
-There are several ways of editing your application.
+## Prerequisites
 
-**Use Lovable**
+- Node.js (v16 or higher)
+- npm or yarn
+- Sanity account and project
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/0433017d-b5ad-4054-96eb-c0f375a4c60c) and start prompting.
+## Setup
 
-Changes made via Lovable will be committed automatically to this repo.
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/designify-order-portal.git
+cd designify-order-portal
+```
 
-**Use your preferred IDE**
+2. Install dependencies:
+```bash
+npm install
+```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+3. Create a `.env.local` file in the root directory with your Sanity token:
+```
+VITE_SANITY_TOKEN=your_sanity_token_here
+```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+4. Configure CORS in your Sanity project:
+   - Go to your Sanity project dashboard
+   - Navigate to API settings
+   - Add `http://localhost:8080` to the CORS Origins list
 
-Follow these steps:
+## Development
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+Start the development server:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The application will be available at `http://localhost:8080`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Building for Production
 
-**Use GitHub Codespaces**
+Build the application:
+```bash
+npm run build
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+The built files will be in the `dist` directory.
 
-## What technologies are used for this project?
+## Project Structure
 
-This project is built with .
+```
+src/
+├── components/     # Reusable UI components
+├── context/       # React context providers
+├── hooks/         # Custom React hooks
+├── lib/           # Utility functions and configurations
+├── pages/         # Page components
+└── styles/        # Global styles and CSS modules
+```
 
+## Technologies Used
+
+- React
 - Vite
 - TypeScript
-- React
-- shadcn-ui
 - Tailwind CSS
+- Sanity CMS
+- React Router
+- Lucide Icons
 
-## How can I deploy this project?
+## Contributing
 
-Simply open [Lovable](https://lovable.dev/projects/0433017d-b5ad-4054-96eb-c0f375a4c60c) and click on Share -> Publish.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## I want to use a custom domain - is that possible?
+## License
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+This project is licensed under the MIT License - see the LICENSE file for details.
