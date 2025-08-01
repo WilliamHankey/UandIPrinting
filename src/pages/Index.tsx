@@ -47,7 +47,7 @@ const Index = () => {
               <div className="absolute inset-0 bg-primary/10 rounded-3xl transform rotate-6"></div>
               <div className="relative bg-white p-6 rounded-3xl shadow-xl">
                 <img
-                  src="public\assests\hero-image.png"
+                  src="..\public\assests\hero-image.png"
                   alt="Printing samples showcase"
                   className="w-full h-[400px] object-cover rounded-2xl"
                 />
