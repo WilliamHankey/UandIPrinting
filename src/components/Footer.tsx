@@ -11,24 +11,21 @@ const Footer = () => {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <img src="/lovable-uploads/d279374b-8a07-4802-80cc-711783b55c2c.png" alt="U&I Printing Logo" className="h-10 w-10" />
+              <img src="public\assests\d279374b-8a07-4802-80cc-711783b55c2c.png" alt="U&I Printing Logo" className="h-10 w-10" />
               <span className="font-semibold text-xl">U&I Printing</span>
             </div>
             <p className="text-white/70">
               Professional printing services tailored to bring your creative ideas to life. Quality, reliability, and customer satisfaction guaranteed.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-white/70 hover:text-primary transition-colors">
+              <a href="https://www.facebook.com/uandiprinting/" className="text-white/70 hover:text-primary transition-colors">
                 <Facebook className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-white/70 hover:text-primary transition-colors">
-                <Twitter className="h-5 w-5" />
               </a>
               <a href="#" className="text-white/70 hover:text-primary transition-colors">
                 <Instagram className="h-5 w-5" />
               </a>
-              <a href="#" className="text-white/70 hover:text-primary transition-colors">
-                <Youtube className="h-5 w-5" />
+              <a href="https://www.tiktok.com/@uandiprinting" className="text-white/70 hover:text-primary transition-colors">
+                <Instagram className="h-5 w-5" />
               </a>
             </div>
           </div>
@@ -63,13 +60,16 @@ const Footer = () => {
                 <Link to="/designs?category=Business Cards" className="text-white/70 hover:text-primary transition-colors">Business Cards</Link>
               </li>
               <li>
+                <Link to="/designs?category=Business Branding" className="text-white/70 hover:text-primary transition-colors">Business Branding</Link>
+              </li>
+              <li>
                 <Link to="/designs?category=Brochures" className="text-white/70 hover:text-primary transition-colors">Brochures & Flyers</Link>
               </li>
               <li>
                 <Link to="/designs?category=Posters" className="text-white/70 hover:text-primary transition-colors">Posters & Banners</Link>
               </li>
               <li>
-                <Link to="/designs?category=Stationery" className="text-white/70 hover:text-primary transition-colors">Custom Stationery</Link>
+                <Link to="/designs?category=Personalised & Gifting Printing" className="text-white/70 hover:text-primary transition-colors">Personalised & Gifting Printing</Link>
               </li>
               <li>
                 <Link to="/designs?category=Marketing Materials" className="text-white/70 hover:text-primary transition-colors">Marketing Materials</Link>
@@ -83,15 +83,16 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-start">
                 <MapPin className="h-5 w-5 mr-2 text-primary" />
-                <span className="text-white/70">123 Print Avenue, Design District, New York, NY 10001</span>
+                <span className="text-white/70">43 St Simon Road, Sunnyside, Cape Town, South Africa</span>
               </li>
               <li className="flex items-center">
                 <Phone className="h-5 w-5 mr-2 text-primary" />
-                <span className="text-white/70">(123) 456-7890</span>
+                <span className="text-white/70">(27) 72-271-1306
+                </span>
               </li>
               <li className="flex items-center">
                 <Mail className="h-5 w-5 mr-2 text-primary" />
-                <span className="text-white/70">info@uiprinting.com</span>
+                <span className="text-white/70">uandiprinting@outlook.com</span>
               </li>
             </ul>
           </div>

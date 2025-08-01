@@ -22,7 +22,20 @@ export const designQuery = `*[_type == "design"] {
   title,
   "image": image.asset->url,
   category,
+  description,
+  basePrice,
   price,
+  specifications[] {
+    name,
+    type,
+    options[] {
+      label,
+      value,
+      price
+    },
+    required,
+    placeholder
+  },
   rating,
   reviewCount,
   "contributors": contributors[]-> {

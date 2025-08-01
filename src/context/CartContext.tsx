@@ -1,17 +1,21 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useMemo } from 'react';
 import { urlFor } from '@/lib/sanity';
 
-interface CartItem {
+export interface CartItem {
   id: string;
   title: string;
   image: string | { asset: { _ref: string } };
   category: string;
   price: number;
   quantity?: number;
+  specifications?: Record<string, any>;
+  basePrice?: number;
 }
 
 interface CartContextType {
-  items: CartItem[];
+  cartItems: CartItem[];
+  totalPrice: number;
+  totalItems: number;
   addToCart: (item: CartItem) => void;
   removeFromCart: (itemId: string) => void;
   updateQuantity: (itemId: string, quantity: number) => void;
@@ -23,6 +27,20 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+
+  // Calculate total price
+  const totalPrice = useMemo(() => {
+    return items.reduce((total, item) => {
+      return total + (item.price * (item.quantity || 1));
+    }, 0);
+  }, [items]);
+
+  // Calculate total items
+  const totalItems = useMemo(() => {
+    return items.reduce((total, item) => {
+      return total + (item.quantity || 1);
+    }, 0);
+  }, [items]);
 
   const getImageUrl = (image: string | { asset: { _ref: string } }) => {
     if (typeof image === 'string') {
@@ -36,6 +54,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const addToCart = (item: CartItem) => {
     setItems((currentItems) => {
+      // For specification-based items, we don't merge quantities since each configuration is unique
+      if (item.specifications && Object.keys(item.specifications).length > 0) {
+        return [...currentItems, { ...item, quantity: 1 }];
+      }
+      
+      // For regular items, merge quantities
       const existingItem = currentItems.find((i) => i.id === item.id);
       if (existingItem) {
         return currentItems.map((i) =>
@@ -64,7 +88,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <CartContext.Provider
-      value={{ items, addToCart, removeFromCart, updateQuantity, clearCart, getImageUrl }}
+      value={{ 
+        cartItems: items, 
+        totalPrice, 
+        totalItems,
+        addToCart, 
+        removeFromCart, 
+        updateQuantity, 
+        clearCart, 
+        getImageUrl 
+      }}
     >
       {children}
     </CartContext.Provider>

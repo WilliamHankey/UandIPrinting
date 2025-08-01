@@ -17,7 +17,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-2">
-            <img src="/lovable-uploads/d279374b-8a07-4802-80cc-711783b55c2c.png" alt="U&I Printing Logo" className="h-12 w-12 object-contain" />
+            <img src="public\assests\d279374b-8a07-4802-80cc-711783b55c2c.png" alt="U&I Printing Logo" className="h-12 w-12 object-contain" />
             <span className="font-semibold text-xl">U&I Printing</span>
           </Link>
 
@@ -30,7 +30,7 @@ const Navbar = () => {
             <Link to="/contact" className="nav-link">Contact</Link>
             <CartIcon className="text-gray-700 hover:text-primary transition-colors" />
             <Button variant="default" className="bg-primary hover:bg-primary/90">
-              Start Order
+              Send Requirements
             </Button>
           </div>
 

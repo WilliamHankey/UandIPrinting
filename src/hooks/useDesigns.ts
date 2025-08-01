@@ -1,12 +1,27 @@
 import { useEffect, useState } from 'react';
 import { client, designQuery } from '@/lib/sanity';
 
+interface Specification {
+  name: string;
+  type: 'select' | 'text' | 'number' | 'checkbox';
+  options?: Array<{
+    label: string;
+    value: string;
+    price: number;
+  }>;
+  required: boolean;
+  placeholder?: string;
+}
+
 interface Design {
   _id: string;
   title: string;
   image: string;
   category: string;
-  price: number;
+  description?: string;
+  basePrice?: number;
+  price: number; // Keep for backward compatibility
+  specifications?: Specification[];
   rating: number;
   reviewCount: number;
   contributors: {

@@ -10,7 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 import { sendOrderNotifications } from '@/lib/notifications';
 
 const Cart = () => {
-  const { cartItems, removeFromCart, updateQuantity, totalItems, totalPrice, clearCart } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, totalItems, totalPrice, clearCart, getImageUrl } = useCart();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -44,6 +44,26 @@ const Cart = () => {
     }
   };
 
+  const renderSpecifications = (specifications: Record<string, any>) => {
+    if (!specifications || Object.keys(specifications).length === 0) {
+      return null;
+    }
+
+    return (
+      <div className="mt-2 text-sm text-gray-600">
+        <p className="font-medium mb-1">Specifications:</p>
+        <div className="space-y-1">
+          {Object.entries(specifications).map(([key, value]) => (
+            <div key={key} className="flex justify-between">
+              <span className="capitalize">{key}:</span>
+              <span className="font-medium">{String(value)}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -68,7 +88,7 @@ const Cart = () => {
                   <div key={item.id} className="bg-white p-4 rounded-lg shadow-sm flex flex-col sm:flex-row gap-4">
                     <div className="w-full sm:w-24 h-24 rounded-md overflow-hidden shrink-0">
                       <img 
-                        src={item.image} 
+                        src={getImageUrl(item.image)} 
                         alt={item.title} 
                         className="w-full h-full object-cover"
                       />
@@ -87,17 +107,20 @@ const Cart = () => {
                       
                       <p className="text-sm text-gray-500 mb-2">{item.category}</p>
                       
+                      {renderSpecifications(item.specifications)}
+                      
                       <div className="flex justify-between items-center mt-2">
                         <div className="flex items-center border rounded-md">
                           <button 
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="px-2 py-1 border-r"
+                            onClick={() => updateQuantity(item.id, (item.quantity || 1) - 1)}
+                            disabled={(item.quantity || 1) <= 1}
+                            className="px-2 py-1 border-r disabled:opacity-50"
                           >
                             <Minus className="h-4 w-4" />
                           </button>
-                          <span className="px-3 py-1">{item.quantity}</span>
+                          <span className="px-3 py-1">{item.quantity || 1}</span>
                           <button 
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                            onClick={() => updateQuantity(item.id, (item.quantity || 1) + 1)}
                             className="px-2 py-1 border-l"
                           >
                             <Plus className="h-4 w-4" />
@@ -105,7 +128,7 @@ const Cart = () => {
                         </div>
                         
                         <div className="font-semibold">
-                          ${(item.price * item.quantity).toFixed(2)}
+                          R{(item.price * (item.quantity || 1)).toFixed(2)}
                         </div>
                       </div>
                     </div>
@@ -120,7 +143,7 @@ const Cart = () => {
                   <div className="space-y-3 mb-6">
                     <div className="flex justify-between">
                       <span className="text-gray-600">Items ({totalItems})</span>
-                      <span>${totalPrice.toFixed(2)}</span>
+                      <span>R{totalPrice.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Shipping</span>
@@ -128,7 +151,7 @@ const Cart = () => {
                     </div>
                     <div className="border-t pt-3 font-semibold flex justify-between">
                       <span>Total</span>
-                      <span>${totalPrice.toFixed(2)}</span>
+                      <span>R{totalPrice.toFixed(2)}</span>
                     </div>
                   </div>
                   

@@ -167,19 +167,24 @@ const Designs = () => {
           ) : (
             <>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {displayedDesigns.map((design) => (
-                  <DesignCard 
-                    key={design._id}
-                    _id={design._id}
-                    image={design.image}
-                    title={design.title}
-                    category={design.category}
-                    price={design.price}
-                    rating={design.rating}
-                    reviewCount={design.reviewCount}
-                    contributors={design.contributors}
-                  />
-                ))}
+                {displayedDesigns.map((design) => {
+                  console.log('Design data:', design);
+                  return (
+                    <DesignCard 
+                      key={design._id}
+                      _id={design._id}
+                      image={design.image}
+                      title={design.title}
+                      category={design.category}
+                      description={design.description || ''}
+                      basePrice={design.basePrice || design.price || 0}
+                      specifications={design.specifications || []}
+                      rating={design.rating || 0}
+                      reviewCount={design.reviewCount || 0}
+                      contributors={design.contributors || []}
+                    />
+                  );
+                })}
               </div>
               
               {/* Loading indicator and observer target */}
