@@ -11,8 +11,7 @@ const Footer = () => {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <img src="public\assests\d279374b-8a07-4802-80cc-711783b55c2c.png" alt="U&I Printing Logo" className="h-10 w-10" />
-              <span className="font-semibold text-xl">U&I Printing</span>
+              <img src="/assets/logo-vertical.png" alt="U&I Printing Logo" className="h-10 w-24" />
             </div>
             <p className="text-white/70">
               Professional printing services tailored to bring your creative ideas to life. Quality, reliability, and customer satisfaction guaranteed.

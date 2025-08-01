@@ -170,14 +170,14 @@ const Index = () => {
               category="Design Tips"
             />
             <BlogCard
-              image="https://unsplash.com/photos/assorted-stickers-on-white-wall-xKnUnPEUiWA?auto=format&fit=crop&q=80"
+              image="https://images.unsplash.com/photo-1525909002-1b05e0c869d8?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               title="The Impact of Color Psychology in Marketing Materials"
               excerpt="Discover how different colors can influence customer perception and behavior when used in your marketing materials."
               date="Sep 28, 2023"
               category="Marketing Insights"
             />
             <BlogCard
-              image="https://unsplash.com/photos/printing-machine-Tzm3Oyu_6sk?auto=format&fit=crop&q=80"
+              image="https://images.unsplash.com/photo-1693031630369-bd429a57f115?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               title="Digital vs. Offset Printing: Which One is Right for You?"
               excerpt="Understand the differences between digital and offset printing to make the right choice for your next printing project."
               date="Sep 10, 2023"

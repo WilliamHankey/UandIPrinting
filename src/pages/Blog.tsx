@@ -69,7 +69,7 @@ const Blog = () => {
               </div>
               <div className="h-64 md:h-full">
                 <img 
-                  src="https://images.unsplash.com/photo-1581077105098-488fdc76b3a8?auto=format&fit=crop&q=80" 
+                  src="https://plus.unsplash.com/premium_photo-1682145497679-e9340895df09?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
                   alt="Sustainable printing" 
                   className="w-full h-full object-cover" 
                 />
@@ -93,14 +93,14 @@ const Blog = () => {
               category="Design Tips"
             />
             <BlogCard 
-              image="https://images.unsplash.com/photo-1616070698578-e5e634af7e8e?auto=format&fit=crop&q=80"
+              image="https://images.unsplash.com/photo-1525909002-1b05e0c869d8?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               title="The Impact of Color Psychology in Marketing Materials"
               excerpt="Discover how different colors can influence customer perception and behavior when used in your marketing materials."
               date="Sep 28, 2023"
               category="Marketing Insights"
             />
             <BlogCard 
-              image="https://images.unsplash.com/photo-1561303460-dcd9acb0bc1d?auto=format&fit=crop&q=80"
+              image="https://images.unsplash.com/photo-1693031630369-bd429a57f115?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               title="Digital vs. Offset Printing: Which One is Right for You?"
               excerpt="Understand the differences between digital and offset printing to make the right choice for your next printing project."
               date="Sep 10, 2023"

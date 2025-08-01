@@ -17,8 +17,8 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-2">
-            <img src="/assests/d279374b-8a07-4802-80cc-711783b55c2c.png" alt="U&I Printing Logo" className="h-12 w-12 object-contain" />
-            <span className="font-semibold text-xl">U&I Printing</span>
+            <img src="/assets/logo-vertical.png" alt="U&I Printing Logo" className="h-32 w-32 object-contain" />
+
           </Link>
 
           {/* Desktop Navigation */}
