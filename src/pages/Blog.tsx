@@ -5,8 +5,39 @@ import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
 import BlogCard from '@/components/BlogCard';
+import { useBlog } from '@/hooks/useBlog';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const Blog = () => {
+  const { data: blogPosts, isLoading, error } = useBlog();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen">
+        <Navbar />
+        <div className="pt-32 pb-16 px-4">
+          <div className="container mx-auto">
+            <Skeleton className="h-96 w-full" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen">
+        <Navbar />
+        <div className="pt-32 pb-16 px-4">
+          <div className="container mx-auto text-center">
+            <h1 className="text-2xl font-bold text-red-600">Error loading blog posts</h1>
+            <p className="text-gray-600">Please try refreshing the page.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -46,88 +77,71 @@ const Blog = () => {
       </section>
       
       {/* Featured Post */}
-      <section className="py-12 px-4">
-        <div className="container mx-auto">
-          <div className="bg-accent rounded-2xl overflow-hidden shadow-md">
-            <div className="grid md:grid-cols-2 items-center">
-              <div className="p-8 md:p-12">
-                <span className="text-xs font-medium bg-primary/10 text-primary px-3 py-1 rounded-full">Featured Article</span>
-                <h2 className="text-2xl md:text-3xl font-bold mt-4">The Future of Sustainable Printing: Eco-Friendly Practices for 2024</h2>
-                <p className="text-gray-600 mt-4">
-                  Discover how the printing industry is embracing sustainable practices to reduce environmental impact while maintaining high-quality outputs.
-                </p>
-                <div className="mt-6 flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">
-                    JD
+      {blogPosts && blogPosts.length > 0 && (
+        <section className="py-12 px-4">
+          <div className="container mx-auto">
+            <div className="bg-accent rounded-2xl overflow-hidden shadow-md">
+              <div className="grid md:grid-cols-2 items-center">
+                <div className="p-8 md:p-12">
+                  <span className="text-xs font-medium bg-primary/10 text-primary px-3 py-1 rounded-full">Featured Article</span>
+                  <h2 className="text-2xl md:text-3xl font-bold mt-4">
+                    {blogPosts[0].title || "Featured Article"}
+                  </h2>
+                  <p className="text-gray-600 mt-4">
+                    {blogPosts[0].excerpt || "Article excerpt"}
+                  </p>
+                  <div className="mt-6 flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+                      {blogPosts[0].author?.name?.charAt(0)?.toUpperCase() || "A"}
+                    </div>
+                    <div>
+                      <p className="font-semibold">{blogPosts[0].author?.name || "Anonymous"}</p>
+                      <p className="text-gray-500 text-sm">
+                        {blogPosts[0].publishedAt ? new Date(blogPosts[0].publishedAt).toLocaleDateString() : "No date"} • 5 min read
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-semibold">John Doe</p>
-                    <p className="text-gray-500 text-sm">Oct 20, 2023 • 8 min read</p>
-                  </div>
+                  <Button className="mt-6 bg-primary hover:bg-primary/90">
+                    Read Article
+                  </Button>
                 </div>
-                <Button className="mt-6 bg-primary hover:bg-primary/90">Read Article</Button>
-              </div>
-              <div className="h-64 md:h-full">
-                <img 
-                  src="https://plus.unsplash.com/premium_photo-1682145497679-e9340895df09?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-                  alt="Sustainable printing" 
-                  className="w-full h-full object-cover" 
-                />
+                <div className="h-64 md:h-full">
+                  <img 
+                    src={blogPosts[0].featuredImage || "/placeholder.svg"} 
+                    alt={blogPosts[0].title || "Featured article"} 
+                    className="w-full h-full object-cover" 
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
       
       {/* Blog Grid */}
       <section className="py-12 px-4">
         <div className="container mx-auto">
           <h2 className="text-2xl font-bold mb-8">Latest Articles</h2>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <BlogCard 
-              image="https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&q=80"
-              title="5 Tips for Creating Eye-Catching Business Cards"
-              excerpt="Learn how to design business cards that make a lasting impression and effectively represent your brand."
-              date="Oct 15, 2023"
-              category="Design Tips"
-            />
-            <BlogCard 
-              image="https://images.unsplash.com/photo-1525909002-1b05e0c869d8?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              title="The Impact of Color Psychology in Marketing Materials"
-              excerpt="Discover how different colors can influence customer perception and behavior when used in your marketing materials."
-              date="Sep 28, 2023"
-              category="Marketing Insights"
-            />
-            <BlogCard 
-              image="https://images.unsplash.com/photo-1693031630369-bd429a57f115?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              title="Digital vs. Offset Printing: Which One is Right for You?"
-              excerpt="Understand the differences between digital and offset printing to make the right choice for your next printing project."
-              date="Sep 10, 2023"
-              category="Printing Technology"
-            />
-            <BlogCard 
-              image="https://images.unsplash.com/photo-1600431521340-491eca880813?auto=format&fit=crop&q=80"
-              title="Preparing Your Artwork for Print: A Complete Guide"
-              excerpt="Follow this step-by-step guide to ensure your digital artwork is properly prepared for high-quality printing results."
-              date="Aug 22, 2023"
-              category="Design Tips"
-            />
-            <BlogCard 
-              image="https://images.unsplash.com/photo-1516383607781-913a19294fd1?auto=format&fit=crop&q=80"
-              title="How to Choose the Right Paper for Your Printing Project"
-              excerpt="Learn about different paper types, weights, and finishes to select the best option for your specific printing needs."
-              date="Aug 5, 2023"
-              category="Printing Technology"
-            />
-            <BlogCard 
-              image="https://images.unsplash.com/photo-1551150441-3f3828204ef0?auto=format&fit=crop&q=80"
-              title="Print Marketing in the Digital Age: Why It Still Matters"
-              excerpt="Explore how traditional print marketing can complement your digital strategy and help your business stand out."
-              date="Jul 18, 2023"
-              category="Marketing Insights"
-            />
-          </div>
+          {blogPosts && blogPosts.length > 0 ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {blogPosts.slice(1).map((post: any) => (
+                <BlogCard 
+                  key={post._id}
+                  image={post.featuredImage}
+                  title={post.title || "Untitled Post"}
+                  excerpt={post.excerpt || "No excerpt available"}
+                  date={post.publishedAt}
+                  author={post.author?.name}
+                  slug={post.slug?.current}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-gray-600">No blog posts available yet.</p>
+            </div>
+          )}
           
           <div className="text-center mt-12">
             <Button variant="outline" size="lg">
