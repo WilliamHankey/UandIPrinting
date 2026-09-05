@@ -1,8 +1,8 @@
 
 import { CartItem } from '@/context/CartContext';
 
-const EMAIL_RECIPIENT = 'williamhankey1@gmail.com';
-const WHATSAPP_NUMBER = '27720302071';
+const EMAIL_RECIPIENT = 'uandiprinting@outlook.com';
+const WHATSAPP_NUMBER = '27753785724';
 
 interface OrderDetails {
   items: CartItem[];
@@ -19,14 +19,14 @@ const generateOrderId = () => {
 // Format cart items for email
 const formatOrderItemsForEmail = (items: CartItem[], totalPrice: number) => {
   const itemsList = items.map(item => 
-    `• ${item.title} (${item.category}) - $${item.price.toFixed(2)} x ${item.quantity} = $${(item.price * item.quantity).toFixed(2)}`
+    `• ${item.title} (${item.category}) - R${item.price.toFixed(2)} x ${item.quantity} = R${(item.price * item.quantity).toFixed(2)}`
   ).join('\n');
   
   return `
 Order Details:
 ${itemsList}
 
-Total: $${totalPrice.toFixed(2)}
+Total: R${totalPrice.toFixed(2)}
   `;
 };
 

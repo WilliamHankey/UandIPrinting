@@ -1,14 +1,26 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CartIcon from "@/components/CartIcon";
+import { useCart } from "@/context/CartContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { cartItems } = useCart();
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleSendRequirements = () => {
+    setIsOpen(false);
+    if (cartItems.length > 0) {
+      navigate('/cart');
+    } else {
+      navigate('/designs');
+    }
   };
 
   return (
@@ -44,6 +56,7 @@ const Navbar = () => {
             <Button
               variant="default"
               className="bg-primary hover:bg-primary/90"
+              onClick={handleSendRequirements}
             >
               Send Requirements
             </Button>
@@ -84,6 +97,7 @@ const Navbar = () => {
               <Button
                 variant="default"
                 className="bg-primary hover:bg-primary/90 w-full"
+                onClick={handleSendRequirements}
               >
                 Start Order
               </Button>

@@ -11,6 +11,9 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react()
   ].filter(Boolean),
+  define: {
+    "import.meta.env.SANITY_TOKEN": JSON.stringify(process.env.SANITY_TOKEN || ""),
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

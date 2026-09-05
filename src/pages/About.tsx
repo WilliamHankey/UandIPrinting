@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -21,15 +22,15 @@ const About = () => {
   
   const images = about?.storySection?.images || [
     {
-      src: "/assests/hero-image.png",
+      src: "/assets/hero-image.png",
       alt: "Our printing facility"
     },
     {
-      src: "/assests/hero-image.png",
+      src: "/assets/hero-image.png",
       alt: "Printing equipment and workspace"
     },
     {
-      src: "/assests/hero-image.png",
+      src: "/assets/hero-image.png",
       alt: "Quality control and finishing"
     }
   ];
@@ -177,6 +178,60 @@ const About = () => {
           </div>
         </section>
       )}
+        {/* What We Offer Section */}
+      {about?.statsSection && (
+        <section className="py-16 px-4">
+          <div className="container mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                What We Offer
+              </h2>
+              <p className="text-gray-600 max-w-3xl mx-auto">
+                From everyday essentials to large format projects, we cover a comprehensive range of printing services designed to meet the needs of businesses and individuals alike.
+              </p>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                { title: "Business Cards & Stationery", desc: "Premium card stock, spot UV, foil finishing and elegant designs that make a lasting first impression." },
+                { title: "Business Branding", desc: "Logos, letterheads, compliment slips and complete corporate identity packages." },
+                { title: "Brochures & Flyers", desc: "Informative and eye-catching marketing collateral to promote your products and services." },
+                { title: "Posters & Banners", desc: "Large format printing for events, promotions, storefronts and exhibitions." },
+                { title: "Personalised & Gifting Printing", desc: "Custom mugs, t-shirts, caps, hoodies and unique keepsakes for every occasion." },
+                { title: "Marketing Materials", desc: "Full suite of promotional products designed to grow your brand and reach new customers." },
+              ].map((service, index) => (
+                <div key={index} className="p-6 bg-white rounded-lg shadow-md border border-gray-100">
+                  <h3 className="text-lg font-semibold mb-2">{service.title}</h3>
+                  <p className="text-gray-600 text-sm">{service.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Why Choose Us Section */}
+      <section className="py-16 px-4 bg-accent">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <span className="text-primary font-medium">Why Choose Us</span>
+            <h2 className="text-3xl md:text-4xl font-bold mt-2">The U&I Printing Advantage</h2>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { title: "High-Quality Output", desc: "State-of-the-art printers and premium materials for crisp, durable results every time." },
+              { title: "Fast Turnaround", desc: "We understand deadlines matter. Most orders are completed within 24-48 hours." },
+              { title: "Affordable Pricing", desc: "Competitive rates without compromising on quality, with bulk order discounts." },
+              { title: "Personal Service", desc: "A dedicated team that works closely with you from concept to final print." },
+            ].map((item, index) => (
+              <div key={index} className="text-center p-6 bg-white rounded-lg shadow-md">
+                <div className="flex justify-center mb-4">{iconMap[index === 0 ? 'Award' : index === 1 ? 'Clock' : index === 2 ? 'CheckCircle2' : 'Users']}</div>
+                <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                <p className="text-gray-600">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Stats Section */}
       {about?.statsSection && (
@@ -202,6 +257,51 @@ const About = () => {
           </div>
         </section>
       )}
+
+      {/* Our Process Section */}
+      <section className="py-16 px-4">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <span className="text-primary font-medium">How It Works</span>
+            <h2 className="text-3xl md:text-4xl font-bold mt-2">Our Simple Process</h2>
+            <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
+              Getting your printing done has never been easier. Follow our simple step-by-step process.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-4 gap-8">
+            {[
+              { step: "01", title: "Browse Designs", desc: "Explore our collection of professionally crafted templates and designs." },
+              { step: "02", title: "Customize", desc: "Select your options, add your specifications and personalize to your needs." },
+              { step: "03", title: "Place Your Order", desc: "Add to cart, send us your requirements and confirm your details." },
+              { step: "04", title: "Print & Deliver", desc: "We produce your order with premium quality and deliver it to your door." },
+            ].map((item, index) => (
+              <div key={index} className="relative p-6 text-center">
+                <div className="text-5xl font-bold text-primary/20 mb-4">{item.step}</div>
+                <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                <p className="text-gray-600">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 px-4 bg-primary">
+        <div className="container mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Ready to Start Your Project?</h2>
+          <p className="text-white/80 text-lg mb-8 max-w-2xl mx-auto">
+            Whether you need a single business card or bulk marketing materials, we're here to help. Get in touch today for a free quote.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" className="bg-white text-primary hover:bg-white/90" asChild>
+              <Link to="/designs">Browse Designs</Link>
+            </Button>
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10" asChild>
+              <Link to="/contact">Contact Us</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
 
       {/* Team Section */}
       {about?.teamSection && (

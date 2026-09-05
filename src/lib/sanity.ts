@@ -6,7 +6,7 @@ export const client = createClient({
   dataset: 'production',
   apiVersion: '2024-02-13',
   useCdn: false,
-  token: import.meta.env.VITE_SANITY_TOKEN,
+  token: import.meta.env.SANITY_TOKEN,
   ignoreBrowserTokenWarning: true,
   perspective: 'published'
 });

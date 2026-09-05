@@ -9,6 +9,7 @@ import AnalyticsTracker from "./utils/AnalyticsTracker";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Designs from "./pages/Designs";
+import DesignDetail from "./pages/DesignDetail";
 import Blog from "./pages/Blog";
 import Contact from "./pages/Contact";
 import Cart from "./pages/Cart";
@@ -39,6 +40,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
             <Route path="/designs" element={<Designs />} />
+            <Route path="/designs/:id" element={<DesignDetail />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/cart" element={<Cart />} />
