@@ -162,7 +162,7 @@ const Footer = () => {
               <li className="flex items-center">
                 <Phone className="h-5 w-5 mr-2 text-primary" />
                 <a
-                  href="https://wa.me/27753785724"
+                  href="https://wa.me/27722711306"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white/70 hover:text-primary transition-colors"

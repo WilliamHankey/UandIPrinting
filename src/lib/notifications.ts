@@ -2,7 +2,7 @@
 import { CartItem } from '@/context/CartContext';
 
 const EMAIL_RECIPIENT = 'uandiprinting@outlook.com';
-const WHATSAPP_NUMBER = '27753785724';
+const WHATSAPP_NUMBER = '27722711306';
 
 interface OrderDetails {
   items: CartItem[];
