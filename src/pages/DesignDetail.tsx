@@ -3,10 +3,11 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ShoppingCart, Star } from 'lucide-react';
+import { ArrowLeft, ShoppingCart } from 'lucide-react';
 import { useDesigns } from '@/hooks/useDesigns';
 import { useCart } from '@/context/CartContext';
 import { useToast } from '@/hooks/use-toast';
+import RatingStars from '@/components/RatingStars';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -116,8 +117,7 @@ const DesignDetail = () => {
           <span className="text-xs font-medium bg-primary text-white px-3 py-1 rounded-full">{design.category}</span>
           <h1 className="text-4xl md:text-5xl font-bold mt-4 mb-4">{design.title}</h1>
           <div className="flex items-center text-gray-600">
-            <span className="mr-1">⭐</span>
-            <span>{design.rating?.toFixed(1) || '0.0'} ({design.reviewCount || 0} reviews)</span>
+            <RatingStars rating={design.rating || 0} showCount reviewCount={design.reviewCount} />
           </div>
         </div>
       </section>

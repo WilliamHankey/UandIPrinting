@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { useCart } from '@/context/CartContext';
 import { useToast } from '@/hooks/use-toast';
 import { urlFor } from '@/lib/sanity';
+import RatingStars from '@/components/RatingStars';
 
 interface Contributor {
   name: string;
@@ -260,8 +261,7 @@ const DesignCard = ({
             ))}
           </div>
           <div className="flex items-center text-sm text-gray-500">
-            <span className="mr-1">⭐</span>
-            <span>{rating.toFixed(1)} ({reviewCount})</span>
+            <RatingStars rating={rating || 0} showCount reviewCount={reviewCount} />
           </div>
         </div>
       </div>
