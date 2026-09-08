@@ -28,8 +28,8 @@ const Cart = () => {
       await sendOrderNotifications(cartItems, totalPrice);
       
       toast({
-        title: "Order Placed Successfully",
-        description: "You will receive an email with invoice and payment details shortly.",
+        title: "Order Sent via WhatsApp",
+        description: "Your order details have been opened in WhatsApp. Press send to confirm your order.",
       });
       
       clearCart();
